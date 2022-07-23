@@ -12,7 +12,6 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
-import { Container } from '@mui/system';
 
 export function UserMenu() {
   const [logout] = useLogoutMutation();

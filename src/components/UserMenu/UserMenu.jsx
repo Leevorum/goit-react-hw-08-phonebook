@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
+import { Container } from '@mui/system';
 
 export function UserMenu() {
   const [logout] = useLogoutMutation();
@@ -33,7 +34,11 @@ export function UserMenu() {
   };
   return (
     <div>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box
+        sx={{
+          flexGrow: 1,
+        }}
+      >
         <AppBar position="static" sx={{ paddingRight: 5, paddingLeft: 10 }}>
           <Toolbar>
             <Link to="/" style={{ color: '#fff' }}>
@@ -50,16 +55,11 @@ export function UserMenu() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Wellcome to PhoneBook App {isLogin ? name : 'user'}
             </Typography>
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{ flexGrow: 1 }}
-              align="right"
-              marginRight={1}
-            >
+
+            <Typography variant="h6" align="right" marginRight={2}>
               {isLogin && email}
             </Typography>
-            <Button onClick={handleLogout} color="inherit">
+            <Button onClick={handleLogout} variant="outlined" color="inherit">
               Logout
             </Button>
           </Toolbar>

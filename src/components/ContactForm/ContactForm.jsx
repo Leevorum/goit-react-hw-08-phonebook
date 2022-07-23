@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import s from './ContactForm.module.css';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default function ContactForm({ onSubmit }) {
   const [stateName, setStateName] = useState('');
@@ -18,43 +25,67 @@ export default function ContactForm({ onSubmit }) {
     setStateName('');
     setStateNumber('');
   };
+  const theme = createTheme();
 
   return (
-    <form className={s.contactForm} onSubmit={handleAddContact}>
-      <label className={s.formItem}>
-        Name
-        <input
-          className={s.input}
-          type="text"
-          name="name"
-          value={stateName}
-          onChange={handleChange}
-          placeholder="Boris Jonhson"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          required
-        />
-      </label>
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            marginBottom: 3,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <PhoneIphoneIcon />
+          </Avatar>
 
-      <label className={s.formItem}>
-        Number
-        <input
-          className={s.input}
-          type="tel"
-          name="number"
-          value={stateNumber}
-          onChange={handleChange}
-          placeholder="+1 234 567 89"
-          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          required
-        />
-      </label>
+          <Box
+            component="form"
+            onSubmit={handleAddContact}
+            noValidate
+            sx={{ mt: 1 }}
+          >
+            <TextField
+              value={stateName}
+              onChange={handleChange}
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="Name"
+              name="name"
+              autoComplete="name"
+              autoFocus
+            />
+            <TextField
+              value={stateNumber}
+              onChange={handleChange}
+              margin="normal"
+              required
+              fullWidth
+              name="number"
+              label="Number"
+              type="text"
+              id="number"
+            />
 
-      <button type="submit" className={s.btn}>
-        Add contact
-      </button>
-    </form>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Add contact
+            </Button>
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
   );
 }
 

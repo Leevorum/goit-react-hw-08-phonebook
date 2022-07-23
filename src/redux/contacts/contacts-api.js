@@ -3,27 +3,35 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const contactsApi = createApi({
   reducerPath: 'items',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://62d71b4049c87ff2af32e296.mockapi.io',
+    baseUrl: 'https://connections-api.herokuapp.com',
+    prepareHeaders: (headers, { getState }) => {
+      const token = getState().auth.token;
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
   }),
   tagTypes: ['Contacts'],
   endpoints: builder => ({
     getAllContacts: builder.query({
       query: () => `/contacts`,
       providesTags: ['Contacts'],
-    }),
-    checkContact: builder.mutation({
-      query: name => ({
-        url: `/contacts?search=${name}`,
-        method: 'GET',
-      }),
-      // transformResponse: response => response.data,
       invalidatesTags: ['Contacts'],
     }),
     addContact: builder.mutation({
-      query: ({ name, phone }) => ({
+      query: ({ name, number }) => ({
         url: `/contacts`,
         method: 'POST',
-        body: { name, phone },
+        body: { name, number },
+      }),
+      invalidatesTags: ['Contacts'],
+    }),
+    editContact: builder.mutation({
+      query: ({ id, name, number }) => ({
+        url: `contacts/${id}`,
+        method: 'PATCH',
+        body: { name, number },
       }),
       invalidatesTags: ['Contacts'],
     }),
@@ -41,5 +49,5 @@ export const {
   useGetAllContactsQuery,
   useDeleteContactMutation,
   useAddContactMutation,
-  useCheckContactMutation,
+  useEditContactMutation,
 } = contactsApi;

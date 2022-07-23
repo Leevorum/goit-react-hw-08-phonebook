@@ -1,7 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux';
-import s from './Filter.module.css';
-import { getFilter } from 'redux/phoneBookSelectors';
-import { addFilter } from 'redux/phoneBookSlice';
+import { getFilter } from 'redux/contacts/phoneBookSelectors';
+import { addFilter } from 'redux/contacts/phoneBookSlice';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
 export default function Filter() {
   const filter = useSelector(getFilter);
@@ -10,18 +11,21 @@ export default function Filter() {
     dispatch(addFilter(evt.target.value));
   };
   return (
-    <label className={s.filterLabel}>
-      Find contacts by name
-      <input
-        className={s.filterInput}
-        type="text"
-        name="filter"
+    <>
+      <Typography component="h6" variant="h6" align="center">
+        Find contacts by name
+      </Typography>
+      <TextField
+        align="center"
         value={filter}
         onChange={handleChange}
-        pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-        title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-        required
+        margin="normal"
+        fullWidth
+        id="filter"
+        label=""
+        name="email"
+        autoFocus
       />
-    </label>
+    </>
   );
 }

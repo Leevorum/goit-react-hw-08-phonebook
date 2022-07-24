@@ -26,8 +26,6 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [isNotification, setNotification] = useState('');
-  const emailRegExp =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   const handleChange = evt => {
     evt.currentTarget.name === 'email'
@@ -38,16 +36,9 @@ export default function LoginPage() {
   const handleLoginUser = evt => {
     evt.preventDefault();
 
-    const testEmail = stateEmail.length === 0 || emailRegExp.test(stateEmail);
-
     //Prevents an empty request
     if (stateEmail.trim() === '' && statePassword.trim() === '') {
       setNotification('Please fill all filds');
-      setOpen(true);
-      return;
-    }
-    if (!testEmail) {
-      setNotification('Email is not valid');
       setOpen(true);
       return;
     }

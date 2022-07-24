@@ -38,8 +38,21 @@ export function UserMenu() {
           flexGrow: 1,
         }}
       >
-        <AppBar position="static" sx={{ paddingRight: 5, paddingLeft: 10 }}>
-          <Toolbar>
+        <AppBar
+          position="static"
+          sx={{
+            paddingRight: 5,
+            paddingLeft: 10,
+          }}
+        >
+          <Toolbar
+            sx={{
+              paddingRight: 5,
+              paddingLeft: 10,
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+            }}
+          >
             <Link to="/" style={{ color: '#fff' }}>
               <IconButton
                 size="large"

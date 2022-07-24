@@ -22,6 +22,13 @@ export default function RegisterPage() {
   const { credentialsUpdate } = useAuth();
   const [isNotification, setNotification] = useState('');
   const [open, setOpen] = useState(false);
+  const emailRegExp =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  const numberRegExp =
+    '+?d{1,4}?[-.s]?(?d{1,3}?)?[-.s]?d{1,4}[-.s]?d{1,4}[-.s]?d{1,9}';
+
+  const nameRegExp =
+    /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/;
 
   const handleChange = evt => {
     switch (evt.currentTarget.name) {
@@ -42,6 +49,9 @@ export default function RegisterPage() {
   const handleAddNewUser = evt => {
     evt.preventDefault();
 
+    const testEmail = emailRegExp.test(stateEmail);
+    const testName = nameRegExp.test(stateName);
+
     const loginCheckFetch = async loginData => {
       //Prevents an empty request
       if (
@@ -50,6 +60,19 @@ export default function RegisterPage() {
         stateName.trim() === ''
       ) {
         setNotification('Please fill all filds');
+        setOpen(true);
+        return;
+      }
+      if (!testEmail) {
+        setNotification('Email is not valid');
+        setOpen(true);
+        return;
+      }
+
+      if (!testName) {
+        setNotification(
+          "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan",
+        );
         setOpen(true);
         return;
       }

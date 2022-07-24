@@ -8,10 +8,13 @@ import Box from '@mui/material/Box';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import BasicCustomSnackBar from 'components/BasicSnackBar/BasicSnackBar';
 
 export default function ContactForm({ onSubmit }) {
   const [stateName, setStateName] = useState('');
   const [stateNumber, setStateNumber] = useState('');
+  const [open, setOpen] = useState(false);
+  const [isNotification, setNotification] = useState('');
 
   const handleChange = evt => {
     evt.currentTarget.name === 'name'
@@ -21,9 +24,19 @@ export default function ContactForm({ onSubmit }) {
 
   const handleAddContact = evt => {
     evt.preventDefault();
+
+    if (stateName.trim() === '' && stateNumber.trim() === '') {
+      setNotification('Please fill all filds');
+      setOpen(true);
+      return;
+    }
     onSubmit({ name: stateName, number: stateNumber });
     setStateName('');
     setStateNumber('');
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const theme = createTheme();
@@ -85,6 +98,12 @@ export default function ContactForm({ onSubmit }) {
             </Button>
           </Box>
         </Box>
+        <BasicCustomSnackBar
+          open={open}
+          onClose={handleClose}
+          severity="error"
+          message={isNotification}
+        />
       </Container>
     </ThemeProvider>
   );

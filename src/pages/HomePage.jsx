@@ -10,7 +10,6 @@ export default function HomePage() {
         component="main"
         maxWidth="xs"
         sx={{
-          width: 420,
           height: 300,
           backgroundColor: 'action.dark',
         }}

@@ -22,10 +22,6 @@ export function UserMenu() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    if (!isLogin) {
-      return;
-    }
-
     const loginCheckFetch = async () => {
       const response = await logout();
       if (Object.keys(response.data).length === 0) {
@@ -75,9 +71,11 @@ export function UserMenu() {
             <Typography variant="h6" align="right" marginRight={2}>
               {isLogin && email}
             </Typography>
-            <Button onClick={handleLogout} variant="outlined" color="inherit">
-              Logout
-            </Button>
+            {isLogin && (
+              <Button onClick={handleLogout} variant="outlined" color="inherit">
+                Logout
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
       </Box>

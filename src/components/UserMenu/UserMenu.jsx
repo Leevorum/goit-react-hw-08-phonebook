@@ -22,6 +22,10 @@ export function UserMenu() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    if (!isLogin) {
+      return;
+    }
+
     const loginCheckFetch = async () => {
       const response = await logout();
       if (Object.keys(response.data).length === 0) {

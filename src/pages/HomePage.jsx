@@ -20,8 +20,8 @@ export default function HomePage() {
           component="div"
           sx={{ flexGrow: 1, marginTop: 10 }}
         >
-          Welcome, Guest. Please <Link to="login">login</Link> or {''}
-          <Link to="register">register</Link>.
+          Welcome, Guest. Please <Link to="login">Sign in</Link> or {''}
+          <Link to="register">Sign Up</Link>.
         </Typography>
       </Container>
     </Box>

@@ -21,7 +21,7 @@ export default function ContactList({ data }) {
   const [open, setOpen] = useState(false);
   const [currentContact, setCurrentContact] = useState();
   const [modalShow, setModalShow] = useState(false);
-  const [isDeleted, setIsDelete] = useState('');
+  const [isNotification, setNotification] = useState('');
 
   const handleEdit = (id, name, number) => {
     setModalShow(true);
@@ -30,7 +30,7 @@ export default function ContactList({ data }) {
 
   const handleDelete = (id, name) => {
     deleteContact(id);
-    setIsDelete(`Succes! ${name} was deleted`);
+    setNotification(`Succes! ${name} was deleted`);
     setOpen(true);
   };
 
@@ -101,7 +101,7 @@ export default function ContactList({ data }) {
         open={open}
         onClose={handleClose}
         severity="success"
-        message={isDeleted}
+        message={isNotification}
       />
     </>
   );

@@ -1,17 +1,15 @@
 import { useSelector } from 'react-redux';
-import React, { useEffect } from 'react';
-import ContactForm from 'components/ContactForm/ContactForm';
-import Filter from 'components/Filter/Filter';
-import ContactList from 'components/ContactList/ContactList';
+import React, { useEffect, useState, useMemo } from 'react';
 import {
   useGetAllContactsQuery,
   useAddContactMutation,
 } from 'redux/contacts/contacts-api';
 import { getFilter } from 'redux/contacts/phoneBookSelectors';
-import { useMemo } from 'react';
 import { getIsLogin } from 'redux/auth/authSelectors';
 import BasicCustomSnackBar from 'components/BasicSnackBar/BasicSnackBar';
-import { useState } from 'react';
+import ContactForm from 'components/ContactForm/ContactForm';
+import Filter from 'components/Filter/Filter';
+import ContactList from 'components/ContactList/ContactList';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 
@@ -24,6 +22,7 @@ export default function Contacts() {
   const [isNotification, setNotification] = useState('');
   const [severity, setSeverity] = useState('');
 
+  //Force feth after re-login
   useEffect(() => {
     isLogin && refetch();
   }, [refetch, isLogin]);

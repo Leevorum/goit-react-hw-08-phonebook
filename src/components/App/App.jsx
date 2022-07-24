@@ -29,6 +29,7 @@ export function App() {
   const [currentUser, { isUninitialized }] = useCurrentUserMutation();
   const isLogin = useSelector(getIsLogin);
 
+  //Update user info after refreshing the webpage with token
   useEffect(() => {
     if (token && isUninitialized) {
       const checkCurrentUser = async () => {

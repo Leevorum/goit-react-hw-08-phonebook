@@ -24,6 +24,8 @@ export default function ContactModalEdit({ contact, onHide, modalShow }) {
 
   const handleEditContact = evt => {
     evt.preventDefault();
+
+    //Prevents an empty request
     if (name.trim() === '' && number.trim() === '') {
       setNotification('Please fill all filds');
       setOpen(true);
@@ -45,6 +47,7 @@ export default function ContactModalEdit({ contact, onHide, modalShow }) {
     onHide();
   };
 
+  //Set contact info
   useEffect(() => {
     if (contact) {
       setStateName(contact.name);

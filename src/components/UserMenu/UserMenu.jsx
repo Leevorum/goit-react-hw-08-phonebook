@@ -24,6 +24,7 @@ export function UserMenu() {
   const handleLogout = () => {
     const loginCheckFetch = async () => {
       const response = await logout();
+      //If object is empty, set auth state to default
       if (Object.keys(response.data).length === 0) {
         credentialsUpdate({ user: null, token: null, isLogin: false });
       }
@@ -31,6 +32,7 @@ export function UserMenu() {
     loginCheckFetch();
     navigate('/', { replace: true });
   };
+
   return (
     <div>
       <Box

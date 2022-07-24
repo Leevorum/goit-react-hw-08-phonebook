@@ -25,7 +25,7 @@ export default function LoginPage() {
   const { credentialsUpdate } = useAuth();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [isError, setError] = useState('');
+  const [isNotification, setNotification] = useState('');
 
   const handleChange = evt => {
     evt.currentTarget.name === 'email'
@@ -36,8 +36,9 @@ export default function LoginPage() {
   const handleLoginUser = evt => {
     evt.preventDefault();
 
+    //Prevents an empty request
     if (stateEmail.trim() === '' && statePassword.trim() === '') {
-      setError('Please fill all filds');
+      setNotification('Please fill all filds');
       setOpen(true);
       return;
     }
@@ -132,7 +133,7 @@ export default function LoginPage() {
           open={open}
           onClose={handleClose}
           severity="error"
-          message={isError}
+          message={isNotification}
         />
       </Container>
     </ThemeProvider>

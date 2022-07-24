@@ -20,7 +20,7 @@ export default function RegisterPage() {
   const [statePassword, setStatePassword] = useState('');
   const [addNewUser] = useAddNewUserMutation();
   const { credentialsUpdate } = useAuth();
-  const [isError, setError] = useState('');
+  const [isNotification, setNotification] = useState('');
   const [open, setOpen] = useState(false);
 
   const handleChange = evt => {
@@ -43,12 +43,13 @@ export default function RegisterPage() {
     evt.preventDefault();
 
     const loginCheckFetch = async loginData => {
+      //Prevents an empty request
       if (
         stateEmail.trim() === '' &&
         statePassword.trim() === '' &&
         stateName.trim() === ''
       ) {
-        setError('Please fill all filds');
+        setNotification('Please fill all filds');
         setOpen(true);
         return;
       }
@@ -58,7 +59,7 @@ export default function RegisterPage() {
           credentialsUpdate(response.data);
         }
       } catch (error) {
-        setError(error);
+        setNotification(error);
         setOpen(true);
       }
     };
@@ -153,7 +154,7 @@ export default function RegisterPage() {
           open={open}
           onClose={handleClose}
           severity="error"
-          message={isError}
+          message={isNotification}
         />
       </Container>
     </ThemeProvider>

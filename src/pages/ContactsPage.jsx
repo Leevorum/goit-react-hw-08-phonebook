@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   useGetAllContactsQuery,
   useAddContactMutation,
@@ -15,32 +15,32 @@ import Container from '@mui/material/Container';
 
 export default function Contacts() {
   const filteredState = useSelector(getFilter);
-  const { data, refetch } = useGetAllContactsQuery();
   const [addContact] = useAddContactMutation();
   const isLogin = useSelector(getIsLogin);
   const [open, setOpen] = useState(false);
   const [isNotification, setNotification] = useState('');
   const [severity, setSeverity] = useState('');
 
+  const { contacts, refetch } = useGetAllContactsQuery(undefined, {
+    selectFromResult: ({ data }) => {
+      return {
+        contacts: data?.filter(contact => {
+          return contact.name
+            .toLowerCase()
+            .includes(filteredState.toLowerCase());
+        }),
+      };
+    },
+  });
+
   //Force feth after re-login
   useEffect(() => {
     isLogin && refetch();
   }, [refetch, isLogin]);
 
-  //Filter contacts + useMemo
-  const filteredContacts = useMemo(() => {
-    const contacts = data;
-    const filter = filteredState;
-
-    const toLowerCaseFilter = filter.toLowerCase();
-    return contacts?.filter(contact => {
-      return contact.name.toLowerCase().includes(toLowerCaseFilter);
-    });
-  }, [filteredState, data]);
-
   //Add contacts
   const handleAddContact = formData => {
-    const existContact = data.filter(contact => {
+    const existContact = contacts.filter(contact => {
       return contact.name.toLowerCase().includes(formData.name.toLowerCase());
     });
     // If the name is in the contact list, throw a notification and cancel the code execution
@@ -77,7 +77,7 @@ export default function Contacts() {
 
           <Container>
             <Filter />
-            {data && <ContactList data={filteredContacts} />}
+            {contacts && <ContactList data={contacts} />}
           </Container>
         </Container>
       </Box>

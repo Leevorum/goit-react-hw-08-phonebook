@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import BasicCustomSnackBar from 'components/BasicSnackBar/BasicSnackBar';
 
@@ -18,7 +19,7 @@ export default function RegisterPage() {
   const [stateName, setStateName] = useState('');
   const [stateEmail, setStateEmail] = useState('');
   const [statePassword, setStatePassword] = useState('');
-  const [addNewUser] = useAddNewUserMutation();
+  const [addNewUser, { isLoading }] = useAddNewUserMutation();
   const { credentialsUpdate } = useAuth();
   const [isNotification, setNotification] = useState('');
   const [open, setOpen] = useState(false);
@@ -76,7 +77,11 @@ export default function RegisterPage() {
       }
       try {
         const response = await addNewUser(loginData);
-        if (response.data) {
+        if (response?.error?.status === 400) {
+          setNotification('This email is already in use');
+          setOpen(true);
+          return;
+        } else {
           credentialsUpdate(response.data);
         }
       } catch (error) {
@@ -115,7 +120,7 @@ export default function RegisterPage() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign up
           </Typography>
           <Box
             component="form"
@@ -160,14 +165,26 @@ export default function RegisterPage() {
               autoComplete="current-password"
             />
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
+            {isLoading ? (
+              <LoadingButton
+                loading
+                variant="contained"
+                type="submit"
+                fullWidth
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Submit
+              </LoadingButton>
+            ) : (
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign Up
+              </Button>
+            )}
           </Box>
         </Box>
 

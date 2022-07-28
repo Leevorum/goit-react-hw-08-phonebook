@@ -9,6 +9,9 @@ import { useEffect } from 'react';
 import { getIsLogin } from 'redux/auth/authSelectors';
 import { PrivateRoute } from 'components/Routes/PrivateRoute';
 import { PublicRoute } from 'components/Routes/PublicRoute';
+import CircularProgress from '@mui/material/CircularProgress';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 
 const HomePage = lazy(
   () => import('pages/HomePage') /* webpackChunkName: "HomePage" */,
@@ -46,7 +49,23 @@ export function App() {
     <div>
       <UserMenu />
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense
+        fallback={
+          <Container component="main" maxWidth="xs" fixed>
+            <Box
+              justifyContent="center"
+              alignItems="center"
+              sx={{
+                display: 'flex',
+                width: 300,
+                height: 300,
+              }}
+            >
+              <CircularProgress size={100} />
+            </Box>
+          </Container>
+        }
+      >
         <Routes>
           <Route
             exact

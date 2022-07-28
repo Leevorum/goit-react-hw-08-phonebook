@@ -13,6 +13,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import BasicCustomSnackBar from 'components/BasicSnackBar/BasicSnackBar';
 
@@ -21,11 +22,11 @@ const theme = createTheme();
 export default function LoginPage() {
   const [stateEmail, setStateEmail] = useState('');
   const [statePassword, setStatePassword] = useState('');
-  const [login] = useLoginMutation();
-  const { credentialsUpdate } = useAuth();
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [isNotification, setNotification] = useState('');
+  const [login, { isLoading }] = useLoginMutation();
+  const { credentialsUpdate } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = evt => {
     evt.currentTarget.name === 'email'
@@ -45,7 +46,11 @@ export default function LoginPage() {
 
     const loginCheckFetch = async loginData => {
       const response = await login(loginData);
-      if (response.data) {
+      if (response?.error?.status === 400) {
+        setNotification('Your login or password is incorrect!');
+        setOpen(true);
+        return;
+      } else {
         credentialsUpdate(response.data);
         navigate('/contacts', { replace: true });
       }
@@ -111,15 +116,27 @@ export default function LoginPage() {
               id="password"
               autoComplete="current-password"
             />
+            {isLoading ? (
+              <LoadingButton
+                loading
+                variant="contained"
+                type="submit"
+                fullWidth
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Submit
+              </LoadingButton>
+            ) : (
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+            )}
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
             <Grid container sx={{ justifyContent: 'center' }}>
               <Grid item>
                 <Link component={RouterLink} to="/register" variant="body2">
